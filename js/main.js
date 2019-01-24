@@ -1,48 +1,51 @@
 (() => {
-    //Create a component first
-    const UserComponent = {
-        props: ['name', 'role'],
-        
-        template: "#userstemplate",
+    //component will go here
+    const homePageComponent = {
+        template: "<h2>You're on the home page </h2>"
+    };
 
-        created: function(){
-            console.log('adadadaddaads');
-        },
+    const userPageComponent = {
+        template: "<h2>You're on the user page </h2>"
+    };
 
-        methods: {
-            logFromChild() {
-                console.log('logged from the component');
-            },
-            passedEvent() {
-                this.$emit('showup');
-            }       
-        }
-
+    const errorPageCompoent = {
+        template: "<h2>You're on the error page  </h2>"
     }
 
+    const routes = [
+        { path: '/home', name: 'home', component: homePageComponent },
+        { path: '/user', name: 'user', component: userPageComponent },
+        { path: '/*', name: 'error', component: errorPageComponent}
+    ];
 
-    //then your vue instance
-
+    const router = new VueRouter({
+        routes
+    });
+    
     const vm = new Vue({
         el: "#app",
-
-        data: {
-            testmessage: "sup"
+        data:{
+            message: "sup from vue!"
         },
-
-        created: function(){
-            console.log('bababaaba');
+        created:function(){
+            console.log('paremt is live');
         },
-
         methods: {
-            calledOnParent() {
-                console.log("This method lives in the main vm and was called from a component");
+            logParent(message){
+                console.log("from the parent", message);
+            },
+            logMainMessage(message){
+                console.log("called from inside a child, lives in the parent", message);
             }
         },
-
         components: {
-            'activeusers' : UserComponent,
-        }
+            'homePageComponent': homePageComponent,
+            'userPageComponent': userPageComponent,
+            'errorPageComponent' : errorPageComponent
+        },
+
+        router: router
 
     })
+
 })();
